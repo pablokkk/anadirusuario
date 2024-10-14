@@ -14,81 +14,78 @@ import javafx.stage.Stage;
 public class HelloController {
 
     @FXML
-    private TextField emailField;
+    private TextField correoField;
 
     @FXML
-    private ComboBox<String> countryComboBox;
+    private ComboBox<String> PaisComboBox;
 
     @FXML
-    private ComboBox<String> platformComboBox;
+    private ComboBox<String> plataformaComboBox;
 
     @FXML
-    private Button confirmButton;
+    private Button confirmarButton;
 
     @FXML
-    private Button saveButton;
+    private Button guardarButton;
 
     @FXML
-    private Button backButton;
+    private Button volverButton;
 
     @FXML
     private TableView<User> userTable;
 
     @FXML
-    private TableColumn<User, String> emailColumn;
+    private TableColumn<User, String> correoColumn;
 
     @FXML
-    private TableColumn<User, String> countryColumn;
+    private TableColumn<User, String> paisColumn;
 
     @FXML
-    private TableColumn<User, String> platformColumn;
+    private TableColumn<User, String> plataformaColumn;
 
     private ObservableList<User> userList;
-
-    public HelloController(TextField emailField) {
-        this.emailField = emailField;
-    }
+    private TableColumn<Object, Object> paisColumnColumn;
 
     @FXML
     public void inicializar() {
         userList = FXCollections.observableArrayList();
         userTable.setItems(userList);
 
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
-        platformColumn.setCellValueFactory(new PropertyValueFactory<>("platform"));
+        correoColumn.setCellValueFactory(new PropertyValueFactory<>("correo"));
+        paisColumnColumn.setCellValueFactory(new PropertyValueFactory<>("Pais"));
+        plataformaColumn.setCellValueFactory(new PropertyValueFactory<>("plataforma"));
 
-        countryComboBox.setItems(FXCollections.observableArrayList("USA", "México", "España", "Argentina"));
-        platformComboBox.setItems(FXCollections.observableArrayList("Windows", "Mac", "Linux"));
+        paisColumnColumn.setText(FXCollections.observableArrayList( "España", "Argentina", "Italia", "Francia").toString());
+        plataformaComboBox.setItems(FXCollections.observableArrayList("Escritorio", "Móvil", "Desconocido"));
 
-        confirmButton.setOnAction(event -> addUser());
-        saveButton.setOnAction(event -> saveData());
-        backButton.setOnAction(event -> goBack());
+        confirmarButton.setOnAction(event -> addUser());
+        guardarButton.setOnAction(event -> saveData());
+        volverButton.setOnAction(event -> goBack());
     }
 
     private void addUser() {
-        String email = emailField.getText();
-        String country = countryComboBox.getValue();
-        String platform = platformComboBox.getValue();
+        String email = correoField.getText();
+        String country = PaisComboBox.getValue();
+        String platform = plataformaComboBox.getValue();
 
         if (email != null && !email.isEmpty() && country != null && platform != null) {
-            User user = new User(email, country, platform);
+            var user = new User(email, country, platform);
 
             userList.add(user);
 
-            emailField.clear();
-            countryComboBox.setValue(null);
-            platformComboBox.setValue(null);
+            correoField.clear();
+            paisColumn.setStyle(null);
+            plataformaComboBox.setStyle(null);
         } else {
-            System.out.println("Por favor, completa todos los campos.");
+            System.out.println("Completa todos los campos.");
         }
     }
 
     private void saveData() {
-        System.out.println("Datos guardados.");
+        System.out.println("se han guardado los datos.");
     }
     private void goBack() {
-        Stage stage = (Stage) backButton.getScene().getWindow();
+        Stage stage = (Stage) volverButton.getScene().getWindow();
         stage.close();
     }
 }
